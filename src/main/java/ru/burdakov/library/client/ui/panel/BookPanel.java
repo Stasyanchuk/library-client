@@ -5,17 +5,45 @@
  */
 package ru.burdakov.library.client.ui.panel;
 
+import ru.burdakov.library.client.api.entity.AuthorEntity;
+import ru.burdakov.library.client.api.entity.BookEntity;
+import ru.burdakov.library.client.api.service.RequestService;
+import ru.burdakov.library.client.ui.frames.BookFrame;
+import ru.burdakov.library.client.ui.model.BookTableModel;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.print.Book;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
- *
  * @author klavi
  */
 public class BookPanel extends javax.swing.JPanel {
+
+    private BookTableModel tableModel;
+
+    private JTable table = new JTable();
 
     /**
      * Creates new form BookPanel
      */
     public BookPanel() {
+        tableModel = new BookTableModel(RequestService.getBooks());
+//        tableModel = new BookTableModel();
         initComponents();
+        initTable();
+    }
+
+    private void initTable() {
+        table.setModel(tableModel);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        tablePanel.add(table);
+        tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
     }
 
     /**
@@ -27,19 +55,73 @@ public class BookPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        buttonPanel = new javax.swing.JPanel();
+        addButton = new javax.swing.JButton();
+        tablePanel = new javax.swing.JPanel();
+
+        setLayout(new java.awt.BorderLayout());
+
+        buttonPanel.setLayout(new javax.swing.BoxLayout(buttonPanel, javax.swing.BoxLayout.LINE_AXIS));
+
+        addButton.setBackground(new java.awt.Color(237, 237, 237));
+        addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/add.png"))); // NOI18N
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ru/burdakov/library/client/ui/panel/Bundle"); // NOI18N
+        addButton.setToolTipText(bundle.getString("BookPanel.addButton.tooltip")); // NOI18N
+        addButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
+        addButton.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        addButton.setMinimumSize(new java.awt.Dimension(32, 32));
+        addButton.setPreferredSize(new java.awt.Dimension(32, 32));
+        addButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                addButtonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                addButtonMouseExited(evt);
+            }
+        });
+        addButton.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                addButtonMouseDragged(evt);
+            }
+        });
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(addButton);
+
+        add(buttonPanel, java.awt.BorderLayout.NORTH);
+
+        tablePanel.setLayout(new java.awt.BorderLayout());
+        add(tablePanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        BookFrame bookFrame = new BookFrame(this);
+        bookFrame.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void addButtonMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addButtonMouseDragged
+        addButton.setBorder(new EmptyBorder(1, 1, 1, 1));
+    }//GEN-LAST:event_addButtonMouseDragged
+
+    private void addButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addButtonMouseEntered
+        addButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    }//GEN-LAST:event_addButtonMouseEntered
+
+    private void addButtonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addButtonMouseExited
+        addButton.setBorder(new EmptyBorder(1, 1, 1, 1));
+    }//GEN-LAST:event_addButtonMouseExited
+
+    public void addBook(BookEntity book){
+        tableModel.addBook(book);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addButton;
+    private javax.swing.JPanel buttonPanel;
+    private javax.swing.JPanel tablePanel;
     // End of variables declaration//GEN-END:variables
 }

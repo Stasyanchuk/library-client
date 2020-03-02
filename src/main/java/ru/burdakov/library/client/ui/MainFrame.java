@@ -5,17 +5,29 @@
  */
 package ru.burdakov.library.client.ui;
 
+import ru.burdakov.library.client.ui.panel.BookPanel;
+
 /**
  *
  * @author klavi
  */
 public class MainFrame extends javax.swing.JFrame {
 
+    private BookPanel bookPanel;
+
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
+        setLocationRelativeTo(null);
+        initTabs();
+    }
+
+    private void initTabs(){
+        bookPanel = new BookPanel();
+
+        tabbedPane.addTab("Books", bookPanel);
     }
 
     /**
@@ -27,18 +39,13 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        tabbedPane = new javax.swing.JTabbedPane();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(640, 480));
+
+        tabbedPane.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        getContentPane().add(tabbedPane, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -54,7 +61,7 @@ public class MainFrame extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Metal".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -79,5 +86,6 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTabbedPane tabbedPane;
     // End of variables declaration//GEN-END:variables
 }
