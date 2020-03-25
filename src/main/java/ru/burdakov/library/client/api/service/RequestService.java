@@ -13,10 +13,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import ru.burdakov.library.client.api.entity.AuthorEntity;
-import ru.burdakov.library.client.api.entity.BookEntity;
-import ru.burdakov.library.client.api.entity.ClientEntity;
-import ru.burdakov.library.client.api.entity.RentEntity;
+import ru.burdakov.library.client.api.entity.*;
 import ru.burdakov.library.client.api.util.LocalDateAdapter;
 
 import java.io.*;
@@ -212,6 +209,11 @@ public class RequestService {
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
         return gson.fromJson(getPostRequest(String.format(REQUEST_RENTS + "/%s/%s", "localhost", 8080, bookId, clientId)), RentEntity.class);
+    }
+
+    public static void deleteRent(Integer bookId, Integer clientId, ReviewEntity reviewEntity) {
+        Gson gson = new Gson();
+        getUpdateRequest(String.format(REQUEST_RENTS + "/%s/%s", "localhost", 8080, bookId, clientId), gson.toJson(reviewEntity));
     }
 
 }

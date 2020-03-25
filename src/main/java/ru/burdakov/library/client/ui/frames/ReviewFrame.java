@@ -5,8 +5,11 @@
  */
 package ru.burdakov.library.client.ui.frames;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import ru.burdakov.library.client.api.entity.RentEntity;
+import ru.burdakov.library.client.api.entity.ReviewEntity;
+import ru.burdakov.library.client.api.enums.RentStates;
+import ru.burdakov.library.client.api.service.RequestService;
+import ru.burdakov.library.client.ui.panel.RentPanel;
 
 /**
  *
@@ -14,11 +17,17 @@ import java.awt.event.ItemListener;
  */
 public class ReviewFrame extends javax.swing.JFrame {
 
+    private Integer rating;
+    private RentPanel rentPanel;
+
     /**
      * Creates new form ReviewFrame
+     * @param rentPanel
      */
-    public ReviewFrame() {
+    public ReviewFrame(RentPanel rentPanel) {
+        this.rentPanel = rentPanel;
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -40,7 +49,7 @@ public class ReviewFrame extends javax.swing.JFrame {
         ratingButton5 = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        commentArea = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         saveButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
@@ -167,9 +176,9 @@ public class ReviewFrame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         jPanel1.add(jLabel2, gridBagConstraints);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        commentArea.setColumns(20);
+        commentArea.setRows(5);
+        jScrollPane1.setViewportView(commentArea);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -265,11 +274,20 @@ public class ReviewFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ratingButton5MouseExited
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        // TODO add your handling code here:
+        ReviewEntity reviewEntity = new ReviewEntity();
+        reviewEntity.setRating(rating);
+        reviewEntity.setComment(commentArea.getText());
+        RentEntity selectionRent = rentPanel.getSelectionActiveRent();
+        selectionRent.setReview(reviewEntity);
+        selectionRent.setStates(RentStates.COMPLETED);
+        RequestService.deleteRent(selectionRent.getBook().getId(), selectionRent.getClient().getId(), reviewEntity);
+        rentPanel.removeSelectionActiveRent(rentPanel.getActiveTable().getSelectedRow());
+        rentPanel.addCompletedRent(selectionRent);
+        dispose();
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
 
@@ -277,8 +295,10 @@ public class ReviewFrame extends javax.swing.JFrame {
     private void ratingButton1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ratingButton1ItemStateChanged
         if(ratingButton1.isSelected()){
             ratingButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/star.png")));
+            rating = 1;
         } else {
             ratingButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+            rating = null;
         }
     }//GEN-LAST:event_ratingButton1ItemStateChanged
 
@@ -286,8 +306,10 @@ public class ReviewFrame extends javax.swing.JFrame {
         if(ratingButton2.isSelected()){
             ratingButton2MouseEntered(null);
             ratingButton1.setSelected(true);
+            rating = 2;
         } else {
             ratingButton2MouseExited(null);
+            rating = null;
         }
     }//GEN-LAST:event_ratingButton2ItemStateChanged
 
@@ -296,8 +318,10 @@ public class ReviewFrame extends javax.swing.JFrame {
             ratingButton3MouseEntered(null);
             ratingButton1.setSelected(true);
             ratingButton2.setSelected(true);
+            rating = 3;
         } else {
             ratingButton3MouseExited(null);
+            rating = null;
         }
     }//GEN-LAST:event_ratingButton3ItemStateChanged
 
@@ -307,8 +331,10 @@ public class ReviewFrame extends javax.swing.JFrame {
             ratingButton1.setSelected(true);
             ratingButton2.setSelected(true);
             ratingButton3.setSelected(true);
+            rating = 4;
         } else {
             ratingButton4MouseExited(null);
+            rating = null;
         }
     }//GEN-LAST:event_ratingButton4ItemStateChanged
 
@@ -319,8 +345,10 @@ public class ReviewFrame extends javax.swing.JFrame {
             ratingButton2.setSelected(true);
             ratingButton3.setSelected(true);
             ratingButton4.setSelected(true);
+            rating = 5;
         } else {
             ratingButton5MouseExited(null);
+            rating = null;
         }
     }//GEN-LAST:event_ratingButton5ItemStateChanged
 
@@ -332,7 +360,7 @@ public class ReviewFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea commentArea;
     private javax.swing.JToggleButton ratingButton1;
     private javax.swing.JToggleButton ratingButton2;
     private javax.swing.JToggleButton ratingButton3;

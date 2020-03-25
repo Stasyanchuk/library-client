@@ -130,7 +130,7 @@ public class RentFrame extends javax.swing.JFrame {
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         RentEntity rent = RequestService.addRent(bookComboBoxModel.getSelectedItem().getId(),
                 clientComboBoxModel.getSelectedItem().getId());
-        rentPanel.addRent(rent);
+        rentPanel.addActiveRent(rent);
         bookPanel.minusBook(rent.getBook().getId());
         dispose();
     }//GEN-LAST:event_saveButtonActionPerformed

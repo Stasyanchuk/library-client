@@ -6,13 +6,17 @@
 package ru.burdakov.library.client.ui.panel;
 
 import ru.burdakov.library.client.api.entity.RentEntity;
+import ru.burdakov.library.client.api.enums.RentStates;
 import ru.burdakov.library.client.api.service.RequestService;
 import ru.burdakov.library.client.ui.frames.RentFrame;
 import ru.burdakov.library.client.ui.frames.ReviewFrame;
 import ru.burdakov.library.client.ui.model.ActiveRentTableModel;
+import ru.burdakov.library.client.ui.model.CompletedRentTableModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author klavi
@@ -20,16 +24,27 @@ import java.awt.*;
 public class RentPanel extends javax.swing.JPanel {
 
     private ActiveRentTableModel activeRentTableModel;
+    private CompletedRentTableModel completedRentTableModel;
     private JTable activeTable = new JTable();
+    private JTable completedTable = new JTable();
     private BookPanel bookPanel;
 
     /**
      * Creates new form RentPanel
      */
     public RentPanel() {
-        activeRentTableModel = new ActiveRentTableModel(RequestService.getRents());
+        initModels();
         initComponents();
         initActiveTable();
+    }
+
+    private void initModels(){
+        List<RentEntity> rents = RequestService.getRents();
+        //FIXME ОБЯЗАТЕЛЬНО ПЕРЕДЕЛАТЬ ЧЕРЕЗ СТРИМЫ В МАПУ
+        List<RentEntity> activeRent = rents.stream().filter(r -> r.getStates().equals(RentStates.ACTIVELY)).collect(Collectors.toList());
+        List<RentEntity> completedRent = rents.stream().filter(r -> r.getStates().equals(RentStates.COMPLETED)).collect(Collectors.toList());
+        this.completedRentTableModel = new CompletedRentTableModel(completedRent);
+        activeRentTableModel = new ActiveRentTableModel(activeRent);
     }
 
     private void initActiveTable() {
@@ -38,6 +53,12 @@ public class RentPanel extends javax.swing.JPanel {
 
         activeTablePanel.add(activeTable);
         activeTablePanel.add(activeTable.getTableHeader(), BorderLayout.NORTH);
+
+        completedTable.setModel(completedRentTableModel);
+        completedTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        completedRentPanel.add(completedTable);
+        completedRentPanel.add(completedTable.getTableHeader(), BorderLayout.NORTH);
     }
 
     /**
@@ -97,17 +118,7 @@ public class RentPanel extends javax.swing.JPanel {
 
         tabbedPane.addTab("Активные", activeRentPanel);
 
-        javax.swing.GroupLayout completedRentPanelLayout = new javax.swing.GroupLayout(completedRentPanel);
-        completedRentPanel.setLayout(completedRentPanelLayout);
-        completedRentPanelLayout.setHorizontalGroup(
-            completedRentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
-        );
-        completedRentPanelLayout.setVerticalGroup(
-            completedRentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 240, Short.MAX_VALUE)
-        );
-
+        completedRentPanel.setLayout(new java.awt.BorderLayout());
         tabbedPane.addTab("Завершенные", completedRentPanel);
 
         add(tabbedPane, java.awt.BorderLayout.CENTER);
@@ -119,12 +130,24 @@ public class RentPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void completedRentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completedRentButtonActionPerformed
-        ReviewFrame reviewFrame = new ReviewFrame();
+        ReviewFrame reviewFrame = new ReviewFrame(this);
         reviewFrame.setVisible(true);
     }//GEN-LAST:event_completedRentButtonActionPerformed
 
-    public void addRent(RentEntity rent){
+    public void addActiveRent(RentEntity rent){
         activeRentTableModel.addRent(rent);
+    }
+
+    public void addCompletedRent(RentEntity rent){
+        completedRentTableModel.addRent(rent);
+    }
+
+    public RentEntity getSelectionActiveRent(){
+        return activeRentTableModel.getRents().get(activeTable.getSelectedRow());
+    }
+
+    public void removeSelectionActiveRent(int index){
+        activeRentTableModel.removeRent(index);
     }
 
 
@@ -134,6 +157,14 @@ public class RentPanel extends javax.swing.JPanel {
 
     public void setBookPanel(BookPanel bookPanel) {
         this.bookPanel = bookPanel;
+    }
+
+    public JTable getActiveTable() {
+        return activeTable;
+    }
+
+    public void setActiveTable(JTable activeTable) {
+        this.activeTable = activeTable;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
