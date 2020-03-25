@@ -5,7 +5,6 @@
  */
 package ru.burdakov.library.client.ui.panel;
 
-import ru.burdakov.library.client.api.entity.AuthorEntity;
 import ru.burdakov.library.client.api.entity.BookEntity;
 import ru.burdakov.library.client.api.service.RequestService;
 import ru.burdakov.library.client.ui.frames.BookFrame;
@@ -14,10 +13,6 @@ import ru.burdakov.library.client.ui.model.BookTableModel;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.print.Book;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author klavi
@@ -57,18 +52,18 @@ public class BookPanel extends javax.swing.JPanel {
 
         buttonPanel = new javax.swing.JPanel();
         addButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
         tablePanel = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
 
         buttonPanel.setLayout(new javax.swing.BoxLayout(buttonPanel, javax.swing.BoxLayout.LINE_AXIS));
 
-        addButton.setBackground(new java.awt.Color(237, 237, 237));
         addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/add.png"))); // NOI18N
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ru/burdakov/library/client/ui/panel/Bundle"); // NOI18N
-        addButton.setToolTipText(bundle.getString("BookPanel.addButton.tooltip")); // NOI18N
-        addButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
-        addButton.setMargin(new java.awt.Insets(3, 3, 3, 3));
+        addButton.setToolTipText("Добавить книгу");
+        addButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        addButton.setMaximumSize(new java.awt.Dimension(32, 32));
         addButton.setMinimumSize(new java.awt.Dimension(32, 32));
         addButton.setPreferredSize(new java.awt.Dimension(32, 32));
         addButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -79,17 +74,34 @@ public class BookPanel extends javax.swing.JPanel {
                 addButtonMouseExited(evt);
             }
         });
-        addButton.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                addButtonMouseDragged(evt);
-            }
-        });
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addButtonActionPerformed(evt);
             }
         });
         buttonPanel.add(addButton);
+
+        deleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/delete.png"))); // NOI18N
+        deleteButton.setMaximumSize(new java.awt.Dimension(32, 32));
+        deleteButton.setMinimumSize(new java.awt.Dimension(32, 32));
+        deleteButton.setPreferredSize(new java.awt.Dimension(32, 32));
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(deleteButton);
+
+        editButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/edit.png"))); // NOI18N
+        editButton.setMaximumSize(new java.awt.Dimension(32, 32));
+        editButton.setMinimumSize(new java.awt.Dimension(32, 32));
+        editButton.setPreferredSize(new java.awt.Dimension(32, 32));
+        editButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(editButton);
 
         add(buttonPanel, java.awt.BorderLayout.NORTH);
 
@@ -103,10 +115,6 @@ public class BookPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_addButtonActionPerformed
 
-    private void addButtonMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addButtonMouseDragged
-        addButton.setBorder(new EmptyBorder(1, 1, 1, 1));
-    }//GEN-LAST:event_addButtonMouseDragged
-
     private void addButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addButtonMouseEntered
         addButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }//GEN-LAST:event_addButtonMouseEntered
@@ -115,13 +123,37 @@ public class BookPanel extends javax.swing.JPanel {
         addButton.setBorder(new EmptyBorder(1, 1, 1, 1));
     }//GEN-LAST:event_addButtonMouseExited
 
-    public void addBook(BookEntity book){
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        RequestService.deleteBook(tableModel.getBooks().get(table.getSelectedRow()).getId());
+        tableModel.removeBook(table.getSelectedRow());
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        BookFrame bookFrame = new BookFrame(tableModel.getBooks().get(table.getSelectedRow()), this);
+        bookFrame.setVisible(true);
+    }//GEN-LAST:event_editButtonActionPerformed
+
+    public void addBook(BookEntity book) {
         tableModel.addBook(book);
+    }
+
+    public void updateBook(BookEntity bookEntity, int index){
+        tableModel.updateBook(bookEntity, index);
+    }
+
+    public void minusBook(Integer bookId){
+        tableModel.minusBook(bookId);
+    }
+
+    public JTable getTable() {
+        return table;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JPanel buttonPanel;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JButton editButton;
     private javax.swing.JPanel tablePanel;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,7 +5,10 @@
  */
 package ru.burdakov.library.client.ui;
 
+import ru.burdakov.library.client.ui.panel.AuthorPanel;
 import ru.burdakov.library.client.ui.panel.BookPanel;
+import ru.burdakov.library.client.ui.panel.ClientPanel;
+import ru.burdakov.library.client.ui.panel.RentPanel;
 
 /**
  *
@@ -14,6 +17,9 @@ import ru.burdakov.library.client.ui.panel.BookPanel;
 public class MainFrame extends javax.swing.JFrame {
 
     private BookPanel bookPanel;
+    private AuthorPanel authorPanel;
+    private ClientPanel clientPanel;
+    private RentPanel rentPanel;
 
     /**
      * Creates new form MainFrame
@@ -26,8 +32,16 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void initTabs(){
         bookPanel = new BookPanel();
+        authorPanel = new AuthorPanel();
+        clientPanel = new ClientPanel();
 
-        tabbedPane.addTab("Books", bookPanel);
+        rentPanel = new RentPanel();
+        rentPanel.setBookPanel(bookPanel);
+
+        tabbedPane.addTab("Книги", bookPanel);
+        tabbedPane.addTab("Авторы", authorPanel);
+        tabbedPane.addTab("Клиенты", clientPanel);
+        tabbedPane.addTab("Аренда", rentPanel);
     }
 
     /**
@@ -42,6 +56,7 @@ public class MainFrame extends javax.swing.JFrame {
         tabbedPane = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Библиотека");
         setPreferredSize(new java.awt.Dimension(640, 480));
 
         tabbedPane.setTabPlacement(javax.swing.JTabbedPane.LEFT);

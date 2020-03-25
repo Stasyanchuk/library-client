@@ -11,35 +11,35 @@ import java.util.List;
 
 public class BookEntity implements Serializable {
 
-    private Long id;
+    private Integer id;
     private String name;
-    private String comment;
-    private Long count;
+    private Integer count;
+    private Integer year;
     private List<AuthorEntity> authors;
 
     public BookEntity() {
     }
 
-    public BookEntity(String name, String comment, Long count, List<AuthorEntity> authors) {
+    public BookEntity(String name, Integer year, Integer count, List<AuthorEntity> authors) {
         this.name = name;
-        this.comment = comment;
+        this.year = year;
         this.count = count;
         this.authors = authors;
     }
 
-    public BookEntity(Long id, String name, String comment, Long count, List<AuthorEntity> authors) {
+    public BookEntity(Integer id, String name, Integer year, Integer count, List<AuthorEntity> authors) {
         this.id = id;
         this.name = name;
-        this.comment = comment;
+        this.year = year;
         this.count = count;
         this.authors = authors;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -51,19 +51,19 @@ public class BookEntity implements Serializable {
         this.name = name;
     }
 
-    public String getComment() {
-        return comment;
+    public Integer getYear() {
+        return year;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
-    public Long getCount() {
+    public Integer getCount() {
         return count;
     }
 
-    public void setCount(Long count) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 
