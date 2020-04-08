@@ -63,6 +63,7 @@ public class ClientTableModel extends AbstractTableModel {
 
     public void setClients(List<ClientEntity> clients) {
         this.clients = clients;
+        fireTableDataChanged();
     }
 
     public void addClient(ClientEntity client){

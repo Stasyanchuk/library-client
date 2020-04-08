@@ -87,6 +87,7 @@ public class BookTableModel extends AbstractTableModel {
 
     public void setBooks(List<BookEntity> books) {
         this.books = books;
+        fireTableDataChanged();
     }
 
     public void removeBook(int index){

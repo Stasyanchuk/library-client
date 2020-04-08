@@ -35,7 +35,7 @@ public class RentPanel extends javax.swing.JPanel {
     public RentPanel() {
         initModels();
         initComponents();
-        initActiveTable();
+        initTable();
     }
 
     private void initModels(){
@@ -47,7 +47,7 @@ public class RentPanel extends javax.swing.JPanel {
         activeRentTableModel = new ActiveRentTableModel(activeRent);
     }
 
-    private void initActiveTable() {
+    private void initTable() {
         activeTable.setModel(activeRentTableModel);
         activeTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -72,6 +72,7 @@ public class RentPanel extends javax.swing.JPanel {
 
         buttonPanel = new javax.swing.JPanel();
         addButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
         tabbedPane = new javax.swing.JTabbedPane();
         activeRentPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
@@ -93,6 +94,17 @@ public class RentPanel extends javax.swing.JPanel {
             }
         });
         buttonPanel.add(addButton);
+
+        updateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/update.png"))); // NOI18N
+        updateButton.setMaximumSize(new java.awt.Dimension(32, 32));
+        updateButton.setMinimumSize(new java.awt.Dimension(32, 32));
+        updateButton.setPreferredSize(new java.awt.Dimension(32, 32));
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(updateButton);
 
         add(buttonPanel, java.awt.BorderLayout.NORTH);
 
@@ -133,6 +145,15 @@ public class RentPanel extends javax.swing.JPanel {
         ReviewFrame reviewFrame = new ReviewFrame(this);
         reviewFrame.setVisible(true);
     }//GEN-LAST:event_completedRentButtonActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        List<RentEntity> rents = RequestService.getRents();
+        //FIXME ОБЯЗАТЕЛЬНО ПЕРЕДЕЛАТЬ ЧЕРЕЗ СТРИМЫ В МАПУ
+        List<RentEntity> activeRent = rents.stream().filter(r -> r.getStates().equals(RentStates.ACTIVELY)).collect(Collectors.toList());
+        List<RentEntity> completedRent = rents.stream().filter(r -> r.getStates().equals(RentStates.COMPLETED)).collect(Collectors.toList());
+        activeRentTableModel.setRents(activeRent);
+        completedRentTableModel.setRents(completedRent);
+    }//GEN-LAST:event_updateButtonActionPerformed
 
     public void addActiveRent(RentEntity rent){
         activeRentTableModel.addRent(rent);
@@ -176,5 +197,6 @@ public class RentPanel extends javax.swing.JPanel {
     private javax.swing.JPanel completedRentPanel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTabbedPane tabbedPane;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

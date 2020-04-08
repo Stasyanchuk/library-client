@@ -123,74 +123,82 @@ public class RequestService {
         Gson gson = new Gson();
         Type listType = new TypeToken<List<BookEntity>>() {
         }.getType();
-        List<BookEntity> books = gson.fromJson(getRequest(String.format(REQUEST_BOOKS, "localhost", 8080)), listType);
+        List<BookEntity> books = gson.fromJson(getRequest(String.format(REQUEST_BOOKS, ServerSettings.IP, ServerSettings.PORT)), listType);
         return books;
     }
 
     public static BookEntity[] getArrayBooks() {
         Gson gson = new Gson();
-        return gson.fromJson(getRequest(String.format(REQUEST_BOOKS, "localhost", 8080)), BookEntity[].class);
+        return gson.fromJson(getRequest(String.format(REQUEST_BOOKS, ServerSettings.IP, ServerSettings.PORT)), BookEntity[].class);
+    }
+
+    public static List<BookEntity> getBookByAuthorId(Integer authorId){
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<BookEntity>>() {
+        }.getType();
+        List<BookEntity> books = gson.fromJson(getRequest(String.format(REQUEST_BOOKS+"/author/%s", ServerSettings.IP, ServerSettings.PORT, authorId)), listType);
+        return books;
     }
 
     public static BookEntity addBook(BookEntity book) {
         Gson gson = new Gson();
-        return gson.fromJson(getPostRequest(String.format(REQUEST_BOOKS, "localhost", 8080), gson.toJson(book)), BookEntity.class);
+        return gson.fromJson(getPostRequest(String.format(REQUEST_BOOKS, ServerSettings.IP, ServerSettings.PORT), gson.toJson(book)), BookEntity.class);
     }
 
     public static void deleteBook(Integer bookId) {
-        getDeleteRequest(String.format(REQUEST_BOOKS + "?id=%s", "localhost", 8080, bookId));
+        getDeleteRequest(String.format(REQUEST_BOOKS + "?id=%s", ServerSettings.IP, ServerSettings.PORT, bookId));
     }
 
     public static void updateBook(BookEntity book) {
         Gson gson = new Gson();
-        getUpdateRequest(String.format(REQUEST_BOOKS, "localhost", 8080), gson.toJson(book));
+        getUpdateRequest(String.format(REQUEST_BOOKS, ServerSettings.IP, ServerSettings.PORT), gson.toJson(book));
     }
 
     public static List<AuthorEntity> getAuthors() {
         Gson gson = new Gson();
         Type listType = new TypeToken<List<AuthorEntity>>() {
         }.getType();
-        return gson.fromJson(getRequest(String.format(REQUEST_AUTHORS, "localhost", 8080)), listType);
+        return gson.fromJson(getRequest(String.format(REQUEST_AUTHORS, ServerSettings.IP, ServerSettings.PORT)), listType);
     }
 
     public static AuthorEntity addAuthor(AuthorEntity author) {
         Gson gson = new Gson();
-        return gson.fromJson(getPostRequest(String.format(REQUEST_AUTHORS, "localhost", 8080), gson.toJson(author)), AuthorEntity.class);
+        return gson.fromJson(getPostRequest(String.format(REQUEST_AUTHORS, ServerSettings.IP, ServerSettings.PORT), gson.toJson(author)), AuthorEntity.class);
     }
 
-    public static void deleteAuthor(Long authorId) {
-        getDeleteRequest(String.format(REQUEST_AUTHORS + "?id=%s", "localhost", 8080, authorId));
+    public static void deleteAuthor(Integer authorId) {
+        getDeleteRequest(String.format(REQUEST_AUTHORS + "?id=%s", ServerSettings.IP, ServerSettings.PORT, authorId));
     }
 
     public static void updateAuthor(AuthorEntity author) {
         Gson gson = new Gson();
-        getUpdateRequest(String.format(REQUEST_AUTHORS, "localhost", 8080), gson.toJson(author));
+        getUpdateRequest(String.format(REQUEST_AUTHORS, ServerSettings.IP, ServerSettings.PORT), gson.toJson(author));
     }
 
     public static List<ClientEntity> getClients() {
         Gson gson = new Gson();
         Type listType = new TypeToken<List<ClientEntity>>() {
         }.getType();
-        return gson.fromJson(getRequest(String.format(REQUEST_CLIENTS, "localhost", 8080)), listType);
+        return gson.fromJson(getRequest(String.format(REQUEST_CLIENTS, ServerSettings.IP, ServerSettings.PORT)), listType);
     }
 
     public static ClientEntity[] getArrayClient() {
         Gson gson = new Gson();
-        return gson.fromJson(getRequest(String.format(REQUEST_CLIENTS, "localhost", 8080)), ClientEntity[].class);
+        return gson.fromJson(getRequest(String.format(REQUEST_CLIENTS, ServerSettings.IP, ServerSettings.PORT)), ClientEntity[].class);
     }
 
     public static ClientEntity addClient(ClientEntity client) {
         Gson gson = new Gson();
-        return gson.fromJson(getPostRequest(String.format(REQUEST_CLIENTS, "localhost", 8080), gson.toJson(client)), ClientEntity.class);
+        return gson.fromJson(getPostRequest(String.format(REQUEST_CLIENTS, ServerSettings.IP, ServerSettings.PORT), gson.toJson(client)), ClientEntity.class);
     }
 
     public static void deleteClient(Integer clientId) {
-        getDeleteRequest(String.format(REQUEST_CLIENTS + "?id=%s", "localhost", 8080, clientId));
+        getDeleteRequest(String.format(REQUEST_CLIENTS + "?id=%s", ServerSettings.IP, ServerSettings.PORT, clientId));
     }
 
     public static void updateClient(ClientEntity client) {
         Gson gson = new Gson();
-        getUpdateRequest(String.format(REQUEST_CLIENTS, "localhost", 8080), gson.toJson(client));
+        getUpdateRequest(String.format(REQUEST_CLIENTS, ServerSettings.IP, ServerSettings.PORT), gson.toJson(client));
     }
 
     public static List<RentEntity> getRents() {
@@ -200,7 +208,17 @@ public class RequestService {
                 .create();
         Type listType = new TypeToken<List<RentEntity>>() {
         }.getType();
-        return gson.fromJson(getRequest(String.format(REQUEST_RENTS, "localhost", 8080)), listType);
+        return gson.fromJson(getRequest(String.format(REQUEST_RENTS, ServerSettings.IP, ServerSettings.PORT)), listType);
+    }
+
+    public static List<RentEntity> getRents(Integer clientId) {
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .create();
+        Type listType = new TypeToken<List<RentEntity>>() {
+        }.getType();
+        return gson.fromJson(getRequest(String.format(REQUEST_RENTS+"/%s", ServerSettings.IP, ServerSettings.PORT, clientId)), listType);
     }
 
     public static RentEntity addRent(Integer bookId, Integer clientId) {
@@ -208,12 +226,12 @@ public class RequestService {
                 .setPrettyPrinting()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create();
-        return gson.fromJson(getPostRequest(String.format(REQUEST_RENTS + "/%s/%s", "localhost", 8080, bookId, clientId)), RentEntity.class);
+        return gson.fromJson(getPostRequest(String.format(REQUEST_RENTS + "/%s/%s", ServerSettings.IP, ServerSettings.PORT, bookId, clientId)), RentEntity.class);
     }
 
     public static void deleteRent(Integer bookId, Integer clientId, ReviewEntity reviewEntity) {
         Gson gson = new Gson();
-        getUpdateRequest(String.format(REQUEST_RENTS + "/%s/%s", "localhost", 8080, bookId, clientId), gson.toJson(reviewEntity));
+        getUpdateRequest(String.format(REQUEST_RENTS + "/%s/%s", ServerSettings.IP, ServerSettings.PORT, bookId, clientId), gson.toJson(reviewEntity));
     }
 
 }

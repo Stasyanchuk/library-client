@@ -65,6 +65,7 @@ public class CompletedRentTableModel extends AbstractTableModel {
 
     public void setRents(List<RentEntity> rents) {
         this.rents = rents;
+        fireTableDataChanged();
     }
 
     public void addRent(RentEntity rent) {

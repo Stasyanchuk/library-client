@@ -7,6 +7,7 @@ package ru.burdakov.library.client.ui.panel;
 
 import ru.burdakov.library.client.api.entity.AuthorEntity;
 import ru.burdakov.library.client.api.service.RequestService;
+import ru.burdakov.library.client.ui.event.AuthorTableMouseListener;
 import ru.burdakov.library.client.ui.frames.AuthorFrame;
 import ru.burdakov.library.client.ui.model.AuthorTableModel;
 
@@ -35,6 +36,7 @@ public class AuthorPanel extends javax.swing.JPanel {
     private void initTable(){
         table.setModel(tableModel);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.addMouseListener(new AuthorTableMouseListener());
 
         tablePanel.add(table);
         tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
@@ -53,6 +55,7 @@ public class AuthorPanel extends javax.swing.JPanel {
         addButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
         tablePanel = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
@@ -93,6 +96,17 @@ public class AuthorPanel extends javax.swing.JPanel {
         });
         buttonPanel.add(editButton);
 
+        updateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/update.png"))); // NOI18N
+        updateButton.setMaximumSize(new java.awt.Dimension(32, 32));
+        updateButton.setMinimumSize(new java.awt.Dimension(32, 32));
+        updateButton.setPreferredSize(new java.awt.Dimension(32, 32));
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+        buttonPanel.add(updateButton);
+
         add(buttonPanel, java.awt.BorderLayout.NORTH);
 
         tablePanel.setLayout(new java.awt.BorderLayout());
@@ -113,6 +127,10 @@ public class AuthorPanel extends javax.swing.JPanel {
         AuthorFrame authorFrame = new AuthorFrame(this, tableModel.getAuthors().get(table.getSelectedRow()));
         authorFrame.setVisible(true);
     }//GEN-LAST:event_editButtonActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        tableModel.setAuthors(RequestService.getAuthors());
+    }//GEN-LAST:event_updateButtonActionPerformed
 
     public void addAuthor(AuthorEntity author){
         tableModel.addAuthor(author);
@@ -136,5 +154,6 @@ public class AuthorPanel extends javax.swing.JPanel {
     private javax.swing.JButton deleteButton;
     private javax.swing.JButton editButton;
     private javax.swing.JPanel tablePanel;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

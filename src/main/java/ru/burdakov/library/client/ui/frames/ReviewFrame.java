@@ -11,6 +11,8 @@ import ru.burdakov.library.client.api.enums.RentStates;
 import ru.burdakov.library.client.api.service.RequestService;
 import ru.burdakov.library.client.ui.panel.RentPanel;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author klavi
@@ -54,7 +56,7 @@ public class ReviewFrame extends javax.swing.JFrame {
         saveButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
@@ -218,6 +220,7 @@ public class ReviewFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ratingButton1MouseEntered
 
     private void ratingButton1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ratingButton1MouseExited
+        if(!ratingButton1.isSelected())
         ratingButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png"))); // NOI18N
     }//GEN-LAST:event_ratingButton1MouseExited
 
@@ -227,8 +230,10 @@ public class ReviewFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ratingButton2MouseEntered
 
     private void ratingButton2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ratingButton2MouseExited
-        ratingButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
-        ratingButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+        if(!ratingButton2.isSelected()) {
+            ratingButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+            ratingButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+        }
     }//GEN-LAST:event_ratingButton2MouseExited
 
     private void ratingButton3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ratingButton3MouseEntered
@@ -238,9 +243,11 @@ public class ReviewFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ratingButton3MouseEntered
 
     private void ratingButton3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ratingButton3MouseExited
-        ratingButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
-        ratingButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
-        ratingButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+        if(!ratingButton3.isSelected()) {
+            ratingButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+            ratingButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+            ratingButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+        }
     }//GEN-LAST:event_ratingButton3MouseExited
 
     private void ratingButton4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ratingButton4MouseEntered
@@ -251,10 +258,12 @@ public class ReviewFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ratingButton4MouseEntered
 
     private void ratingButton4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ratingButton4MouseExited
-        ratingButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
-        ratingButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
-        ratingButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
-        ratingButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+        if(!ratingButton4.isSelected()) {
+            ratingButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+            ratingButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+            ratingButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+            ratingButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+        }
     }//GEN-LAST:event_ratingButton4MouseExited
 
     private void ratingButton5MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ratingButton5MouseEntered
@@ -266,11 +275,13 @@ public class ReviewFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_ratingButton5MouseEntered
 
     private void ratingButton5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ratingButton5MouseExited
-        ratingButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
-        ratingButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
-        ratingButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
-        ratingButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
-        ratingButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+        if(!ratingButton5.isSelected()) {
+            ratingButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+            ratingButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+            ratingButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+            ratingButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+            ratingButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/black-star.png")));
+        }
     }//GEN-LAST:event_ratingButton5MouseExited
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
@@ -280,6 +291,7 @@ public class ReviewFrame extends javax.swing.JFrame {
         RentEntity selectionRent = rentPanel.getSelectionActiveRent();
         selectionRent.setReview(reviewEntity);
         selectionRent.setStates(RentStates.COMPLETED);
+        selectionRent.setFinishDate(LocalDate.now());
         RequestService.deleteRent(selectionRent.getBook().getId(), selectionRent.getClient().getId(), reviewEntity);
         rentPanel.removeSelectionActiveRent(rentPanel.getActiveTable().getSelectedRow());
         rentPanel.addCompletedRent(selectionRent);
@@ -355,12 +367,12 @@ public class ReviewFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
+    private javax.swing.JTextArea commentArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea commentArea;
     private javax.swing.JToggleButton ratingButton1;
     private javax.swing.JToggleButton ratingButton2;
     private javax.swing.JToggleButton ratingButton3;

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class AuthorEntity implements Serializable {
 
-    private Long id;
+    private Integer id;
     private String name;
     private String description;
     private List<BookEntity> books;
@@ -13,18 +13,18 @@ public class AuthorEntity implements Serializable {
     public AuthorEntity() {
     }
 
-    public AuthorEntity(Long id, String name, String description, List<BookEntity> books) {
+    public AuthorEntity(Integer id, String name, String description, List<BookEntity> books) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.books = books;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

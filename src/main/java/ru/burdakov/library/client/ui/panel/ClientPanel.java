@@ -7,6 +7,7 @@ package ru.burdakov.library.client.ui.panel;
 
 import ru.burdakov.library.client.api.entity.ClientEntity;
 import ru.burdakov.library.client.api.service.RequestService;
+import ru.burdakov.library.client.ui.event.ClientPanelMouseListener;
 import ru.burdakov.library.client.ui.frames.ClientFrame;
 import ru.burdakov.library.client.ui.model.ClientTableModel;
 
@@ -35,10 +36,12 @@ public class ClientPanel extends javax.swing.JPanel {
     private void initTable(){
         table.setModel(tableModel);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.addMouseListener(new ClientPanelMouseListener());
 
         tablePanel.add(table);
         tablePanel.add(table.getTableHeader(), BorderLayout.NORTH);
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,6 +56,7 @@ public class ClientPanel extends javax.swing.JPanel {
         addButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
         tablePanel = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
@@ -92,6 +96,17 @@ public class ClientPanel extends javax.swing.JPanel {
         });
         jPanel1.add(editButton);
 
+        updateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ru/burdakov/library/client/ui/panel/update.png"))); // NOI18N
+        updateButton.setMaximumSize(new java.awt.Dimension(32, 32));
+        updateButton.setMinimumSize(new java.awt.Dimension(32, 32));
+        updateButton.setPreferredSize(new java.awt.Dimension(32, 32));
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
+        jPanel1.add(updateButton);
+
         add(jPanel1, java.awt.BorderLayout.NORTH);
 
         tablePanel.setLayout(new java.awt.BorderLayout());
@@ -112,6 +127,10 @@ public class ClientPanel extends javax.swing.JPanel {
         ClientFrame clientFrame = new ClientFrame(this, tableModel.getClients().get(table.getSelectedRow()));
         clientFrame.setVisible(true);
     }//GEN-LAST:event_editButtonActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        tableModel.setClients(RequestService.getClients());
+    }//GEN-LAST:event_updateButtonActionPerformed
 
     public void addClient(ClientEntity client){
         tableModel.addClient(client);
@@ -135,5 +154,6 @@ public class ClientPanel extends javax.swing.JPanel {
     private javax.swing.JButton editButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel tablePanel;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

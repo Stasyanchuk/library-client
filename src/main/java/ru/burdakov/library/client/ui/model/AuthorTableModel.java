@@ -63,6 +63,7 @@ public class AuthorTableModel extends AbstractTableModel {
 
     public void setAuthors(List<AuthorEntity> authors) {
         this.authors = authors;
+        fireTableDataChanged();
     }
 
     public void addAuthor(AuthorEntity author) {

@@ -16,6 +16,9 @@ import ru.burdakov.library.client.ui.util.Action;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 /**
  * @author burdakov
@@ -24,6 +27,7 @@ public class BookFrame extends javax.swing.JFrame {
 
     private BookEntity book;
     private BookPanel bookPanel;
+    private DetailedAuthorFrame frame;
     private Action action;
 
     private AuthorListModel authorListModel;
@@ -40,6 +44,16 @@ public class BookFrame extends javax.swing.JFrame {
         initComponents();
         initModel();
         initField();
+    }
+
+    public BookFrame(DetailedAuthorFrame frame) {
+        this.book = new BookEntity();
+        this.frame = frame;
+        this.authorListModel = new AuthorListModel(new ArrayList<>(Collections.singletonList(frame.getAuthor())));
+        this.action = Action.ADD;
+        setLocationRelativeTo(null);
+        initComponents();
+        initModel();
     }
 
     public BookFrame(BookPanel panel) {
@@ -72,6 +86,7 @@ public class BookFrame extends javax.swing.JFrame {
 
     private void initModel() {
         authorList.setModel(authorListModel);
+        authorList.setSelectedIndex(0);
         authorList.setCellRenderer(new ObjectCellRenderer());
     }
 
@@ -215,9 +230,13 @@ public class BookFrame extends javax.swing.JFrame {
         book.setCount((Integer) countSpinner.getValue());
         book.setAuthors(authorList.getSelectedValuesList());
         book.setYear((Integer) yearSpinner.getValue());
-        if (action.equals(Action.ADD))
-            bookPanel.addBook(RequestService.addBook(book));
-        else {
+        if (action.equals(Action.ADD)) {
+            BookEntity b = RequestService.addBook(book);
+            if (bookPanel != null)
+                bookPanel.addBook(b);
+            if(frame != null)
+                frame.addBook(b);
+        } else {
             RequestService.updateBook(book);
             bookPanel.updateBook(book, bookPanel.getTable().getSelectedRow());
         }
@@ -226,7 +245,6 @@ public class BookFrame extends javax.swing.JFrame {
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
         dispose();
-        // TODO add your handling code here:
     }//GEN-LAST:event_cancelButtonActionPerformed
 
 
